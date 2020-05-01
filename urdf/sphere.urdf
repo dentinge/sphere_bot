@@ -1,0 +1,51 @@
+<robot name = "sphere_bot">
+
+  
+   <link name="base_link">
+    <visual>
+      <geometry>
+        <sphere radius="1.0"/>
+      </geometry>
+      <material name="green">
+            <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="1.0"/>
+      </geometry>
+    </collision>
+  </link>
+  
+  <gazebo reference="base_link">
+    <!-- kp and kd for rubber -->
+    <kp>1000000.0</kp>
+    <kd>100.0</kd>
+    <mu1>1.5</mu1>
+    <mu2>1.5</mu2>
+    <fdir1>1 0 0</fdir1>
+    <maxVel>1.0</maxVel>
+    <minDepth>0.00</minDepth>
+  </gazebo>
+  
+    <gazebo reference="r_foot">
+    <!-- contact sensor -->
+    <sensor type="contact" name="base_link_contact_sensor">
+      <update_rate>1000.0</update_rate>
+      <always_on>1</always_on>
+      <contact>
+        <collision>base_link_collision</collision>
+        <topic>/base_link_contact</topic>
+      </contact>
+    </sensor>
+  </gazebo>
+  
+  <gazebo>
+    <plugin filename="libgazebo_ros_force.so" name="gazebo_ros_force">
+      <bodyName>pelvis</bodyName>
+      <topicName>/atlas/apply_pelvis_force</topicName>
+    </plugin>
+  </gazebo>
+
+
+</robot>
